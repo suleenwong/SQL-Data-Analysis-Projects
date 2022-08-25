@@ -25,7 +25,7 @@ PostgreSQL data analysis project in conducting data analysis on:
 
 # **Project - Analyze International Debt Statistics** -->
 
-## **[Analyzing American Baby Name Trends](baby-names/)**
+## **[Analyzing USA Baby Name Trends](Analyzing-USA-Baby-Name-Trends/)**
 
 
 PostgreSQL project for analyzing how American baby name tastes have changed since 1920
