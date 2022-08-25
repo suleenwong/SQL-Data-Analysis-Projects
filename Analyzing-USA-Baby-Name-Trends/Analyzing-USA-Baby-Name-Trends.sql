@@ -1,5 +1,5 @@
 /*
-Project: Analyzing American Baby Name Trends 
+Project: Analyzing USA Baby Name Trends 
 
 Skills used: Joins, Case statments, CTE's, Windows Functions, 
 Aggregate Functions, Converting Data Types
