@@ -29,6 +29,7 @@ PostgreSQL data analysis project in conducting data analysis on:
 
 
 PostgreSQL project for analyzing how American baby name tastes have changed since 1920
+- classifying names as classic or trendy
 - finding the top 10 male and female baby names overall
 - finding top male and female name for each year
 - which male name has been number one for the most number of years
