@@ -21,7 +21,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 # **Project - Analyze International Debt Statistics** -->
 
-## **Film rental store**
+<!-- ## **Film rental store** -->
 
 <br>
 
