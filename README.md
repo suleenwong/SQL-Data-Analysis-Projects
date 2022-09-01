@@ -25,7 +25,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 <br>
 
-## **[The World's Oldest Businesses](Worlds-Oldest-Businesses/worlds-oldest-businesses.sql)**
+## **[The World's Oldest Businesses](Worlds-Oldest-Businesses/Worlds-Oldest-Businesses.sql)**
 PostgreSQL data analysis project in conducting data analysis on:
 - the world's oldest businesses: when were they founded, and which industries do they belong to?
 
