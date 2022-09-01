@@ -17,13 +17,20 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 <!-- # **Film Rental Store Project**
 
-# Members fees at sports facilities
+# Members fees at sports facilities 
 
-# **[What and Where are the World's Oldest Businesses](SQL-Data-Analysis-Worlds-Oldest-Businesses/analysis-worlds-oldest-businesses.sql)**
+# **Project - Analyze International Debt Statistics** -->
+
+## **Film rental store**
+
+<br>
+
+## **[The World's Oldest Businesses](Worlds-Oldest-Businesses/worlds-oldest-businesses.sql)**
 PostgreSQL data analysis project in conducting data analysis on:
 - the world's oldest businesses: when were they founded, and which industries do they belong to?
 
-# **Project - Analyze International Debt Statistics** -->
+
+<br>
 
 ## **[Analyzing USA Baby Name Trends](Analyzing-USA-Baby-Name-Trends/)**
 
