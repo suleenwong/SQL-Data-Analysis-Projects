@@ -26,7 +26,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 <br>
 
 ## **[The World's Oldest Businesses](Worlds-Oldest-Businesses/)**
-PostgreSQL data analysis project in conducting data analysis on:
+PostgreSQL data analysis project using data from BusinessFinancing.co.uk to examine:
 - the world's oldest businesses: when were they founded, and which industries do they belong to?
 
 
