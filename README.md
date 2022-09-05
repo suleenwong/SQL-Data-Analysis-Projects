@@ -12,16 +12,28 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 - pgAdmin
 - DBeaver
 
+### Visualization
+- Tableau
+
+<br>
+
 # Projects & Challenges
 
+<!-- ## **[Online Movie Rental Database](Movie-Rental-Database/)**
+- popularity of actors to decide which movies to purchase
+- revenue of the last months to estimate budget for short term investments
+- success across countries to decide market extensions
+- longterm development of revenue -->
 
-<!-- # **Film Rental Store Project**
+<!-- ## **[Online Sports Retail Revenue]()** -->
 
-# Members fees at sports facilities 
+<!-- ## **[European Soccer Database] -->
 
-# **Project - Analyze International Debt Statistics** -->
-
-<!-- ## **Film rental store** -->
+## **[Covid deaths and vaccinations](Covid-Project/)**
+PostgreSQL data analysis project using data from [https://ourworldindata.org/covid-deaths](https://ourworldindata.org/covid-deaths) to analyze countries and continents with:
+- highest death rate per population
+- infection rate per population
+- vaccinations per population
 
 <br>
 
