@@ -13,7 +13,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 - DBeaver
 
 ### Visualization
-- [Tableau](https://public.tableau.com/app/profile/su.leen.wong)
+- [Tableau](https://public.tableau.com/app/profile/suleenwong)
 
 <br>
 
@@ -29,7 +29,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 <!-- ## **[European Soccer Database] -->
 
-## **[Covid deaths and vaccinations](Covid-Project/)**
+## **[Covid deaths](Covid-Project/)**
 PostgreSQL data analysis project using data from [https://ourworldindata.org/covid-deaths](https://ourworldindata.org/covid-deaths) to analyze countries and continents with
 - highest death rate per population
 - infection rate per population
