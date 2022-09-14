@@ -39,6 +39,14 @@ PostgreSQL data analysis project using data from [https://ourworldindata.org/cov
 )
 
 <br>
+ 
+## **[Online Sports Retail Revenue](Online-Sports-Retail/)**
+PostgreSQL project analyzing product data for an online sports retail company to optimize revenue.
+
+[Online Sports Retail Revenue Dashboard in Tableau](https://public.tableau.com/views/OnlineSportsRetailRevenue/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link)
+
+<br>
+
 
 ## **[The World's Oldest Businesses](Worlds-Oldest-Businesses/)**
 PostgreSQL data analysis project using data from BusinessFinancing.co.uk to examine:
