@@ -29,15 +29,21 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 <!-- ## **[European Soccer Database] -->
 
-<!-- ## **[Covid deaths](Covid-Project/)**
-PostgreSQL data analysis project using data from [https://ourworldindata.org/covid-deaths](https://ourworldindata.org/covid-deaths) to analyze countries and continents with
+## **[Global Covid Data Analysis](https://github.com/suleenwong/Global-Covid-Analysis/)**
+PostgreSQL data analysis project to analyze countries and continents with
 - highest death rate per population
 - infection rate per population
 - vaccinations per population
 
-[Covid Dashboard 2022 in Tableau](https://public.tableau.com/views/CovidDashboard2022_16624086618860/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link
-) -->
+<br>
 
+## **[Data cleaning of housing data in SQL](https://github.com/suleenwong/Data-Cleaning-Housing-Data/)**
+PostgreSQL data cleaning project of Nashville housing data to
+- remove duplicate rows
+- split addresses into different parts
+
+
+<br>
  
 ## **[Online Sports Retail Revenue](Online-Sports-Retail/)**
 PostgreSQL project analyzing product data for an online sports retail company to optimize revenue.
@@ -62,3 +68,9 @@ PostgreSQL project for analyzing how American baby name tastes have changed sinc
 - finding the top 10 male and female baby names overall
 - finding top male and female name for each year
 - which male name has been number one for the most number of years
+
+<br>
+
+## **[Exploring the European Soccer Database](European-Soccer-Database/)**
+
+PostgreSQL project for analyzing how American baby name tastes have changed since 1920
