@@ -29,16 +29,15 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 
 <!-- ## **[European Soccer Database] -->
 
-## **[Covid deaths](Covid-Project/)**
+<!-- ## **[Covid deaths](Covid-Project/)**
 PostgreSQL data analysis project using data from [https://ourworldindata.org/covid-deaths](https://ourworldindata.org/covid-deaths) to analyze countries and continents with
 - highest death rate per population
 - infection rate per population
 - vaccinations per population
 
 [Covid Dashboard 2022 in Tableau](https://public.tableau.com/views/CovidDashboard2022_16624086618860/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link
-)
+) -->
 
-<br>
  
 ## **[Online Sports Retail Revenue](Online-Sports-Retail/)**
 PostgreSQL project analyzing product data for an online sports retail company to optimize revenue.
