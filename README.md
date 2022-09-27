@@ -39,8 +39,10 @@ PostgreSQL data analysis project to analyze countries and continents with
 
 ## **[Data cleaning of housing data in SQL](https://github.com/suleenwong/Data-Cleaning-Housing-Data/)**
 PostgreSQL data cleaning project of Nashville housing data to
+- populate missing values
+- splitting addresses into address, city, state columns
 - remove duplicate rows
-- split addresses into different parts
+- deleting unused columns
 
 
 <br>
@@ -69,8 +71,8 @@ PostgreSQL project for analyzing how American baby name tastes have changed sinc
 - finding top male and female name for each year
 - which male name has been number one for the most number of years
 
-<br>
+<!-- <br>
 
 ## **[Exploring the European Soccer Database](European-Soccer-Database/)**
 
-PostgreSQL project for analyzing how American baby name tastes have changed since 1920
+PostgreSQL project for analyzing how American baby name tastes have changed since 1920 -->
