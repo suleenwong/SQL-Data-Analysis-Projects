@@ -207,7 +207,7 @@ WITH orders AS (
   FROM orders
   GROUP BY delivr_month),
 
-  orders_with_lag AS (
+orders_with_lag AS (
   SELECT delivr_month,
          -- Current and previous orders for each month
          orders,
@@ -239,3 +239,331 @@ GROUP BY previous.delivr_month
 ORDER BY previous.delivr_month ASC;
 
 
+-- Revenue for each user ID
+SELECT user_id,
+       SUM(meal_price*order_quantity) AS revenue
+FROM meals AS m
+JOIN orders AS o 
+    ON m.meal_id = o.meal_id
+GROUP BY user_id;
+
+
+-- ARPU (average revenue per user)
+-- kpi CTE
+WITH kpi AS (
+  SELECT user_id,
+         SUM(m.meal_price * o.order_quantity) AS revenue
+  FROM meals AS m
+  JOIN orders AS o ON m.meal_id = o.meal_id
+  GROUP BY user_id)
+-- Calculate ARPU (average revenue per user)
+SELECT ROUND(AVG(revenue) :: NUMERIC, 2) AS arpu
+FROM kpi;
+
+
+-- Average orders per user
+-- kpi CTE
+WITH kpi AS (
+  SELECT
+    -- Number of distinct orders and users
+    COUNT(DISTINCT order_id) AS orders,
+    COUNT(DISTINCT user_id) AS users
+  FROM orders)
+-- Calculate the average orders per user
+SELECT ROUND(orders :: NUMERIC / users, 2) AS arpu
+FROM kpi;
+
+
+-- CTE of revenue
+WITH user_revenues AS (
+    SELECT user_id,
+           SUM(meal_price*order_quantity) AS revenue
+    FROM meals AS m
+    JOIN orders AS o 
+        ON m.meal_id = o.meal_id
+    GROUP BY user_id)
+-- Return the frequency table of revenue by user
+SELECT ROUND(revenue :: NUMERIC, -2) AS revenue_100,
+       COUNT(DISTINCT user_id) AS users
+FROM user_revenues
+GROUP BY revenue_100
+ORDER BY revenue_100 ASC;
+
+
+-- CTE of user orders
+WITH user_orders AS (
+    SELECT user_id,
+           COUNT(DISTINCT order_id) AS orders
+  FROM orders
+  GROUP BY user_id)
+-- Return the frequency table of orders by user
+SELECT orders, 
+       COUNT(DISTINCT user_id) AS users
+FROM user_orders
+GROUP BY orders
+ORDER BY orders ASC;
+
+
+-- CTE of revenue for each user
+WITH user_revenues AS (
+  SELECT
+    -- Select the user IDs and the revenues they generate
+    user_id,
+    SUM(meal_price*order_quantity) AS revenue
+  FROM meals AS m
+  JOIN orders AS o 
+    ON m.meal_id = o.meal_id
+  GROUP BY user_id)
+-- Bucketing users by revenue
+SELECT
+    CASE WHEN revenue < 150 THEN 'Low-revenue users'
+         WHEN revenue < 300 THEN 'Mid-revenue users'
+         ELSE 'High-revenue users'
+    END AS revenue_group,
+    COUNT(DISTINCT user_id) AS users
+FROM user_revenues
+GROUP BY revenue_group;
+
+
+-- Store each user's count of orders in a CTE named user_orders
+WITH user_orders AS (
+  SELECT
+    user_id,
+    COUNT(DISTINCT order_id) AS orders
+  FROM orders
+  GROUP BY user_id)
+-- Write the conditions for the three buckets
+SELECT
+  CASE
+    WHEN orders < 8 THEN 'Low-orders users'
+    WHEN orders < 15 THEN 'Mid-orders users'
+    ELSE 'High-orders users'
+  END AS order_group,
+  -- Count the distinct users in each bucket
+  COUNT(DISTINCT user_id) AS users
+FROM user_orders
+GROUP BY order_group;
+
+-- CTE with user IDs and their revenues
+ WITH user_revenues AS (
+  SELECT
+    user_id,
+    SUM(meal_price*order_quantity) AS revenue
+  FROM meals AS m
+  JOIN orders AS o ON m.meal_id = o.meal_id
+  GROUP BY user_id)
+
+-- Calculate the first, second, and third quartile
+SELECT
+  ROUND(
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY revenue ASC) :: NUMERIC,
+  2) AS revenue_p25,
+  ROUND(
+    PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY revenue ASC) :: NUMERIC,
+  2) AS revenue_p50,
+  ROUND(
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY revenue ASC) :: NUMERIC,
+  2) AS revenue_p75,
+  -- Calculate the average
+  ROUND(AVG(revenue) :: NUMERIC, 2) AS avg_revenue
+FROM user_revenues;
+
+
+-- Create a CTE named user_revenues
+WITH user_revenues AS (
+  SELECT
+    -- Select user_id and calculate revenue by user 
+    user_id,
+    SUM(m.meal_price * o.order_quantity) AS revenue
+  FROM meals AS m
+  JOIN orders AS o ON m.meal_id = o.meal_id
+  GROUP BY user_id)
+  -- Calculate the first and third revenue quartiles
+SELECT
+  ROUND(
+    PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY revenue ASC) :: NUMERIC,
+  2) AS revenue_p25,
+  ROUND(
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY revenue ASC) :: NUMERIC,
+  2) AS revenue_p75
+FROM user_revenues;
+
+
+-- CTE of user_id and revenue by user 
+WITH user_revenues AS (
+  SELECT
+    user_id,
+    SUM(m.meal_price * o.order_quantity) AS revenue
+  FROM meals AS m
+  JOIN orders AS o ON m.meal_id = o.meal_id
+  GROUP BY user_id),
+-- Calculate the first and third revenue quartiles
+  quartiles AS (
+  SELECT
+    ROUND(
+      PERCENTILE_CONT(0.25) WITHIN GROUP
+      (ORDER BY revenue ASC) :: NUMERIC,
+    2) AS revenue_p25,
+    ROUND(
+      PERCENTILE_CONT(0.75) WITHIN GROUP
+      (ORDER BY revenue ASC) :: NUMERIC,
+    2) AS revenue_p75
+  FROM user_revenues)
+-- Count the number of users in the IQR
+SELECT
+  COUNT(DISTINCT user_id) AS users
+FROM user_revenues
+CROSS JOIN quartiles
+-- Only keep users with revenues in the IQR range
+WHERE revenue :: NUMERIC >= revenue_p25
+  AND revenue :: NUMERIC <= revenue_p75;
+
+
+-- Select and format order date 
+ SELECT DISTINCT
+  order_date,
+  TO_CHAR(order_date, 'FMDay DD, FMMonth YYYY') AS format_order_date
+FROM orders
+ORDER BY order_date ASC
+LIMIT 3; 
+
+
+-- Set up the user_count_orders CTE
+WITH user_count_orders AS (
+    SELECT user_id,
+           COUNT(DISTINCT order_id) AS count_orders
+    FROM orders
+    -- Only keep orders in August 2018
+    WHERE DATE_TRUNC('month', order_date) = '2018-08-01'
+    GROUP BY user_id)
+-- Select user ID, and rank user ID by count_orders
+SELECT
+  user_id,
+  RANK() OVER (ORDER BY count_orders DESC) AS count_orders_rank
+FROM user_count_orders
+ORDER BY count_orders_rank ASC
+-- Limit the user IDs selected to 3
+LIMIT 3;
+
+-- Import tablefunc
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+-- Create pivot table
+SELECT * FROM CROSSTAB($$
+  SELECT
+    user_id,
+    DATE_TRUNC('month', order_date) :: DATE AS delivr_month,
+    SUM(meal_price * order_quantity) :: FLOAT AS revenue
+  FROM meals
+  JOIN orders ON meals.meal_id = orders.meal_id
+ WHERE user_id IN (0, 1, 2, 3, 4)
+   AND order_date < '2018-09-01'
+ GROUP BY user_id, delivr_month
+ ORDER BY user_id, delivr_month;
+$$)
+-- Select user ID and the months from June to August 2018
+AS ct (user_id INT,
+       "2018-06-01" FLOAT,
+       "2018-07-01" FLOAT,
+       "2018-08-01" FLOAT)
+ORDER BY user_id ASC;
+
+
+-- Select eatery and calculate total cost
+SELECT
+  eatery,
+  DATE_TRUNC('month', stocking_date) :: DATE AS delivr_month,
+  SUM(meal_cost*stocked_quantity) :: FLOAT AS cost
+FROM meals
+JOIN stock ON meals.meal_id = stock.meal_id
+-- Keep only the records after October 2018
+WHERE stocking_date > '2018-10-31'
+GROUP BY eatery, delivr_month
+ORDER BY eatery, delivr_month;
+
+
+-- Import tablefunc
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+
+-- Select eatery and calculate total cost
+SELECT * FROM CROSSTAB($$
+  SELECT
+    eatery,
+    DATE_TRUNC('month', stocking_date) :: DATE AS delivr_month,
+    SUM(meal_cost * stocked_quantity) :: FLOAT AS cost
+  FROM meals
+  JOIN stock ON meals.meal_id = stock.meal_id
+  -- Keep only the records after October 2018
+  WHERE DATE_TRUNC('month', stocking_date) > '2018-10-01'
+  GROUP BY eatery, delivr_month
+  ORDER BY eatery, delivr_month;
+$$)
+-- Select the eatery and November and December 2018 as columns
+AS ct (eatery TEXT,
+       "2018-11-01" FLOAT,
+       "2018-12-01" FLOAT)
+ORDER BY eatery ASC;
+
+
+-- unique ordering users by eatery and by quarter.
+SELECT
+  eatery,
+  TO_CHAR(order_date, '"Q"Q YYYY') AS delivr_quarter,
+  COUNT(DISTINCT user_id) AS users
+FROM meals
+JOIN orders ON meals.meal_id = orders.meal_id
+GROUP BY eatery, delivr_quarter
+ORDER BY delivr_quarter, users;
+
+
+-- CTE of eatery users
+WITH eatery_users AS  (
+  SELECT
+    eatery,
+    TO_CHAR(order_date, '"Q"Q YYYY') AS delivr_quarter,
+    COUNT(DISTINCT user_id) AS users
+  FROM meals
+  JOIN orders ON meals.meal_id = orders.meal_id
+  GROUP BY eatery, delivr_quarter
+  ORDER BY delivr_quarter, users)
+
+-- Rank rows, partition by quarter and order by users  
+SELECT
+  eatery,
+  delivr_quarter,
+  RANK() OVER
+    (PARTITION BY delivr_quarter
+     ORDER BY users DESC) :: INT AS users_rank
+FROM eatery_users
+ORDER BY delivr_quarter, users_rank;
+
+
+-- Create pivot table of eatery ranks for last three quarters of 2018
+-- Import tablefunc
+CREATE EXTENSION IF NOT EXISTS tablefunc;
+-- Pivot the previous query by quarter
+SELECT * FROM CROSSTAB($$
+  WITH eatery_users AS  (
+    SELECT
+      eatery,
+      TO_CHAR(order_date, '"Q"Q YYYY') AS delivr_quarter,
+      COUNT(DISTINCT user_id) AS users
+    FROM meals
+    JOIN orders ON meals.meal_id = orders.meal_id
+    GROUP BY eatery, delivr_quarter
+    ORDER BY delivr_quarter, users)
+  -- Rank rows, partition by quarter and order by users
+  SELECT
+    eatery,
+    delivr_quarter,
+    RANK() OVER
+      (PARTITION BY delivr_quarter
+       ORDER BY users DESC) :: INT AS users_rank
+  FROM eatery_users
+  ORDER BY eatery, delivr_quarter;
+$$)
+-- Select the columns of the pivoted table
+AS  ct (eatery TEXT,
+        "Q2 2018" INT,
+        "Q3 2018" INT,
+        "Q4 2018" INT)
+ORDER BY "Q4 2018";
