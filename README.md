@@ -46,7 +46,7 @@ PostgreSQL data cleaning project of Nashville housing data to
 
 <br>
 
-## **[KPI analysis of food delivery data](https://github.com/suleenwong/Food-Delivery-Data/)**
+## **[KPI analysis of food delivery data](Food-Delivery-Data/)**
 PostgreSQL data analysis project to calculate KPIs for food delivery data such as 
 - revenue, cost and profit
 - monthly active users (MAU)
