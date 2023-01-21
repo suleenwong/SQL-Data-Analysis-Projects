@@ -5,7 +5,7 @@ Compilation of SQL / PostgreSQL data analysis projects and challenges where I pr
 ## Built with:
 
 ### SQL Languages
- - SQL
+- SQL
 - PostgreSQL
 
 ### Tools
@@ -34,6 +34,16 @@ PostgreSQL data analysis project to analyze countries and continents with
 - highest death rate per population
 - infection rate per population
 - vaccinations per population
+
+<br>
+
+## **[Sales Records Database Analysis](https://github.com/suleenwong/Sales-Records-Database-Analysis/)**
+SQL and Tableau project to analyze the sales records database of a business selling scale model cars, identifying:
+- top 10 products to be prioritized for restocking
+- VIP customers and less engaged customers
+- customer lifetime value (LTV)
+
+The Tableau dashboard for this project can be found [here](https://public.tableau.com/app/profile/suleenwong/viz/SalesRecordsAnalysisDashboard/Story).
 
 <br>
 
