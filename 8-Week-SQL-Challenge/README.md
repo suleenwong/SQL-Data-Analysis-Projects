@@ -11,6 +11,6 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 [Solution](https://github.com/suleenwong/SQL-Data-Analysis-Projects/tree/master/8-Week-SQL-Challenge/1-Dannys-Diner/Solutions.sql)
 
-`<br>
+<br>
 
 ## Case Study #2 - Pizza Runner
