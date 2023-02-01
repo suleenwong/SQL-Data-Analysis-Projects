@@ -44,8 +44,24 @@ GROUP BY c.customer_id, p.pizza_name
 ORDER BY c.customer_id, p.pizza_name;
 
 -- 6. What was the maximum number of pizzas delivered in a single order?
--- 7. How many pizzas were delivered that had both exclusions and extras?
--- 8. What was the total volume of pizzas ordered for each hour of the day?
--- 9. What was the volume of orders for each day of the week?
+SET search_path = pizza_runner;
+SELECT c.order_id, COUNT(*) AS num_pizzas
+FROM customer_orders AS c
+JOIN runner_orders AS r
+	ON c.order_id = r.order_id
+WHERE pickup_time != 'null'
+	AND distance != 'null'
+    AND duration != 'null'
+GROUP BY c.order_id
+ORDER BY num_pizzas DESC
+LIMIT 1;
+
+-- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
+-- 8. How many pizzas were delivered that had both exclusions and extras?
+
+-- 9. What was the total volume of pizzas ordered for each hour of the day?
+
+-- 10. What was the volume of orders for each day of the week?
 
 -- B. Runner and Customer Experience
