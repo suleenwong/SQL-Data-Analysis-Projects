@@ -57,6 +57,32 @@ ORDER BY num_pizzas DESC
 LIMIT 1;
 
 -- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+SET search_path = pizza_runner;
+WITH pizza_changes AS (
+  SELECT c.order_id, customer_id, exclusions, extras,
+      CASE WHEN exclusions IN ('','null') OR exclusions IS NULL THEN 'no exclusions'
+      ELSE 'with exclusions' END AS exclusion_flag,
+      CASE WHEN extras IN ('','null') OR extras IS NULL THEN 'no extras'
+      ELSE 'with extras' END AS extras_flag
+  FROM customer_orders AS c
+  JOIN runner_orders AS r
+      ON c.order_id = r.order_id
+  WHERE pickup_time != 'null'
+      AND distance != 'null'
+      AND duration != 'null'
+)
+SELECT customer_id, 'with changes' AS changes, COUNT(*)
+FROM pizza_changes
+WHERE exclusion_flag = 'with exclusions'
+	OR extras_flag = 'with extras'
+GROUP BY customer_id
+UNION
+SELECT customer_id, 'no changes' AS changes, COUNT(*)
+FROM pizza_changes
+WHERE exclusion_flag = 'no exclusions'
+	AND extras_flag = 'no extras'
+GROUP BY customer_id
+ORDER BY customer_id;
 
 -- 8. How many pizzas were delivered that had both exclusions and extras?
 
