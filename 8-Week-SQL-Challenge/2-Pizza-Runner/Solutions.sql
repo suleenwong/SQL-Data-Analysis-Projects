@@ -85,6 +85,25 @@ GROUP BY customer_id
 ORDER BY customer_id;
 
 -- 8. How many pizzas were delivered that had both exclusions and extras?
+SET search_path = pizza_runner;
+WITH pizza_changes AS (
+  SELECT c.order_id, customer_id, exclusions, extras,
+      CASE WHEN exclusions IN ('','null') OR exclusions IS NULL THEN 'no exclusions'
+      ELSE 'with exclusions' END AS exclusion_flag,
+      CASE WHEN extras IN ('','null') OR extras IS NULL THEN 'no extras'
+      ELSE 'with extras' END AS extras_flag
+  FROM customer_orders AS c
+  JOIN runner_orders AS r
+      ON c.order_id = r.order_id
+  WHERE pickup_time != 'null'
+      AND distance != 'null'
+      AND duration != 'null'
+)
+SELECT COUNT(*) AS with_exclusions_and_extras
+FROM pizza_changes
+WHERE exclusion_flag = 'with exclusions'
+	AND extras_flag = 'with extras';
+
 
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
 
