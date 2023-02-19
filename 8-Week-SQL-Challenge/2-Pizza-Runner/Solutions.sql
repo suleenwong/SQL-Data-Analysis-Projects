@@ -104,8 +104,12 @@ FROM pizza_changes
 WHERE exclusion_flag = 'with exclusions'
 	AND extras_flag = 'with extras';
 
-
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
+SET search_path = pizza_runner;
+SELECT EXTRACT(HOUR FROM order_time) AS order_hour, COUNT(*) AS num_pizzas
+FROM customer_orders
+GROUP BY 1
+ORDER BY order_hour;
 
 -- 10. What was the volume of orders for each day of the week?
 
